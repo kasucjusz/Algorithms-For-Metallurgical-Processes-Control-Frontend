@@ -1,0 +1,17 @@
+.full-width {
+  width: 100%;
+}
+
+.double-width {
+  width: 200%;
+}
+
+.dark-background {
+  background-color: dimgrey;
+}
+
+.scroll-container {
+  overflow-x: scroll;
+  min-width: 450px;
+}
+
