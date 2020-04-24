@@ -2,8 +2,8 @@
   width: 100%;
 }
 
-.double-width {
-  width: 200%;
+.less-than-half-width {
+  width: 40%;
 }
 
 .dark-background {
@@ -13,5 +13,9 @@
 .scroll-container {
   overflow-x: scroll;
   min-width: 450px;
+}
+
+.selector {
+  margin: 10px;
 }
 

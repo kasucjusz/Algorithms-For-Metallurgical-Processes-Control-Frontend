@@ -8,4 +8,8 @@ export class ConfigService {
   getAllData() {
     return this.http.get('api/csv');
   }
+
+  getBySpeed(speed: string) {
+    return this.http.get('api/csv/' + speed);
+  }
 }

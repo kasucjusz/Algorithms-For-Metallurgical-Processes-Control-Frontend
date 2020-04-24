@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ConfigService} from '../httpConnector/config.service';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +8,10 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
+  chart: Chart[] = [];
+
+  dataSource;
   title = 'aspm-frontend';
   displayedColumns = [
     'Czas',
@@ -49,7 +50,7 @@ export class AppComponent implements OnInit{
     'P1110',
     'P1112',
     'P1114',
-    'P1118'/*,
+    'P1118',
     'P1120',
     'P1122',
     'P1124',
@@ -92,25 +93,103 @@ export class AppComponent implements OnInit{
     'P1433',
     'P1434',
     'P1435',
-    'P1440'*/
+    'P1440'
   ];
-  dataSource;
 
   constructor(private httpConnector: ConfigService) {
     this.httpConnector.getAllData()
       .subscribe(res => {
         // @ts-ignore
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.filterPredicate = (data, filter: string): boolean => data.p1034.toLowerCase().includes(filter) || data.p1036.toLowerCase().includes(filter);
+        this.dataSource = res;
         console.log('Loaded');
         console.log(res);
       });
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  speeds = [
+    {value: 'all', viewValue: 'Wszystkie dane'},
+    {value: '0.0', viewValue: '0.0'},
+    {value: '0.1', viewValue: '0.1'},
+    {value: '0.2', viewValue: '0.2'},
+    {value: '0.3', viewValue: '0.3'},
+    {value: '0.4', viewValue: '0.4'},
+    {value: '0.5', viewValue: '0.5'},
+    {value: '0.6', viewValue: '0.6'},
+    {value: '0.7', viewValue: '0.7'},
+    {value: '0.8', viewValue: '0.8'},
+    {value: '0.9', viewValue: '0.9'},
+    {value: '1', viewValue: '1.0'},
+  ];
+
+  changeSpeed($event) {
+    this.chart = [];
+    const param = $event.source.value;
+    if($event.isUserInput) {
+      console.log(param);
+      if (param === 'all') {
+        this.httpConnector.getAllData()
+          .subscribe(res => {
+            // @ts-ignore
+            this.dataSource = res;
+            console.log('Loaded');
+            console.log(res);
+          });
+      } else {
+        this.httpConnector.getBySpeed(param)
+          .subscribe(res => {
+            // @ts-ignore
+            this.dataSource = res;
+            console.log('Loaded');
+            console.log(res);
+          });
+      }
+    }
+  }
+
+  changeParameter($event) {
+    this.chart = [];
+    const values = [];
+    const dates = [];
+    let param = $event.source.value;
+    param = param === 'Czas' ? 'time' : param;
+    const json = JSON.stringify(this.dataSource);
+    JSON.parse(json, (key, value) => {
+      if (key.toLowerCase() === param.toLowerCase()) {
+        console.log(value);
+        values.push(value);
+      }
+      if(key.toLowerCase() === 'time') {
+        dates.push(value);
+      }
+    });
+
+    // @ts-ignore
+    this.chart = new Chart('canvas', {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            data: values,
+            borderColor: '#3cba9f',
+            fill: false
+          },
+        ]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            display: true
+          }],
+          yAxes: [{
+            display: true
+          }],
+        }
+      }
+    });
   }
 
   ngOnInit(): void { }

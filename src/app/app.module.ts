@@ -5,7 +5,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from '../httpConnector/config.service';
-import {MatFormFieldModule, MatInputModule, MatPaginatorModule, MatSortModule, MatTableModule, MatToolbarModule} from '@angular/material';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatPaginatorModule,
+  MatSelectModule,
+  MatSortModule,
+  MatTableModule,
+  MatToolbarModule
+} from '@angular/material';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -20,7 +29,9 @@ import {MatFormFieldModule, MatInputModule, MatPaginatorModule, MatSortModule, M
     MatInputModule,
     MatSortModule,
     MatPaginatorModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSelectModule,
+    ChartsModule
   ],
   providers: [ConfigService],
   bootstrap: [AppComponent]

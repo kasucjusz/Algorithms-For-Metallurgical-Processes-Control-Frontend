@@ -1,209 +1,25 @@
-<mat-toolbar class="double-width">
+<mat-toolbar class="full-width">
   <span>Algorithms For Metallurgical Processes Control</span>
 </mat-toolbar>
 
-<div class="dark-background double-width">
-  <mat-form-field color="accent" class="full-width">
-    <label>
-      <input class="full-width" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtruj">
-    </label>
+<div class="dark-background full-width">
+  <mat-form-field class="less-than-half-width selector">
+    <mat-select placeholder="Prędkość odlewania">
+      <mat-option (onSelectionChange)="changeSpeed($event)" *ngFor="let speed of speeds" [value]="speed.value">
+        {{ speed.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="less-than-half-width selector">
+    <mat-select placeholder="Parametr">
+      <mat-option (onSelectionChange)="changeParameter($event)" *ngFor="let parameter of displayedColumns" [value]="parameter">
+        {{ parameter }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
 
-<table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8 double-width">
-
-  <ng-container matColumnDef="Czas">
-    <th mat-header-cell *matHeaderCellDef> Czas </th>
-    <td mat-cell *matCellDef="let element"> {{element.time}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1010">
-    <th mat-header-cell *matHeaderCellDef> P1010 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1010}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1012">
-    <th mat-header-cell *matHeaderCellDef> P1012 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1012}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1014">
-    <th mat-header-cell *matHeaderCellDef> P1014 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1014}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1034">
-    <th mat-header-cell *matHeaderCellDef> P1034 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1034}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1036">
-    <th mat-header-cell *matHeaderCellDef> P1036 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1036}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1038">
-    <th mat-header-cell *matHeaderCellDef> P1038 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1038}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1044">
-    <th mat-header-cell *matHeaderCellDef> P1044 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1044}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1046">
-    <th mat-header-cell *matHeaderCellDef> P1046 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1046}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1048">
-    <th mat-header-cell *matHeaderCellDef> P1048 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1048}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1050">
-    <th mat-header-cell *matHeaderCellDef> P1050 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1050}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1052">
-    <th mat-header-cell *matHeaderCellDef> P1052 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1052}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1054">
-    <th mat-header-cell *matHeaderCellDef> P1054 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1054}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1058">
-    <th mat-header-cell *matHeaderCellDef> P1058 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1058}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1060">
-    <th mat-header-cell *matHeaderCellDef> P1060 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1060}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1062">
-    <th mat-header-cell *matHeaderCellDef> P1062 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1062}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1064">
-    <th mat-header-cell *matHeaderCellDef> P1064 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1064}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1066">
-    <th mat-header-cell *matHeaderCellDef> P1066 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1066}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1068">
-    <th mat-header-cell *matHeaderCellDef> P1068 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1068}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1070">
-    <th mat-header-cell *matHeaderCellDef> P1070 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1070}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1072">
-    <th mat-header-cell *matHeaderCellDef> P1072 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1072}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1074">
-    <th mat-header-cell *matHeaderCellDef> P1074 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1074}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1076">
-    <th mat-header-cell *matHeaderCellDef> P1076 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1076}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1078">
-    <th mat-header-cell *matHeaderCellDef> P1078 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1078}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1080">
-    <th mat-header-cell *matHeaderCellDef> P1080 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1080}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1094">
-    <th mat-header-cell *matHeaderCellDef> P1094 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1094}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1096">
-    <th mat-header-cell *matHeaderCellDef> P1096 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1096}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1098">
-    <th mat-header-cell *matHeaderCellDef> P1098 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1098}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1100">
-    <th mat-header-cell *matHeaderCellDef> P1100 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1100}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1102">
-    <th mat-header-cell *matHeaderCellDef> P1102 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1102}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1104">
-    <th mat-header-cell *matHeaderCellDef> P1104 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1104}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1106">
-    <th mat-header-cell *matHeaderCellDef> P1106 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1106}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1108">
-    <th mat-header-cell *matHeaderCellDef> P1108 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1108}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1110">
-    <th mat-header-cell *matHeaderCellDef> P1110 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1110}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1112">
-    <th mat-header-cell *matHeaderCellDef> P1112 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1112}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1114">
-    <th mat-header-cell *matHeaderCellDef> P1114 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1114}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1116">
-    <th mat-header-cell *matHeaderCellDef> P1116 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1116}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="P1118">
-    <th mat-header-cell *matHeaderCellDef> P1118 </th>
-    <td mat-cell *matCellDef="let element"> {{element.p1118}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-
-<mat-paginator class="double-width mat-paginator-sticky" [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>
+<div *ngIf="chart">
+  <canvas id="canvas">{{ chart }}</canvas>
+</div>
