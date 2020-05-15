@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigService} from '../httpConnector/config.service';
 import {Chart} from 'chart.js';
+import {removeErrorMarkup} from "tslint/lib/verify/parse";
 
 @Component({
   selector: 'app-root',
@@ -135,8 +136,11 @@ export class AppComponent implements OnInit {
         }
       }
     });
+    this.median=median(values);
+    this.average=average(values);
     console.log('WARTOSCI ', values);
     console.log('MEDIANA',  median(values));
+    console.log('SREDNIA', average(values));
   }
 
   ngOnInit(): void {
@@ -151,4 +155,12 @@ function median(values) {
     return values[half];
   else
     return (Number(values[half])+ Number(values[half+1]))/2;
+}
+
+function average(values){
+  var total = 0;
+  for(var i = 0; i < values.length; i++) {
+    total += Number(values[i]);
+  }
+  return total / values.length;
 }
