@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
   chart: Chart[] = [];
   median;
   average;
+  max;
+  min;
+  headElements = ['Maksymalna', 'Minimalna', 'Srednia', 'Mediana'];
   dataSource;
   title = 'aspm-frontend';
   displayedColumns = [
@@ -138,9 +141,14 @@ export class AppComponent implements OnInit {
     });
     this.median=median(values);
     this.average=average(values);
+    this.min=min(values);
+    this.max=max(values);
     console.log('WARTOSCI ', values);
     console.log('MEDIANA',  median(values));
     console.log('SREDNIA', average(values));
+    console.log('MAX', max(values));
+    console.log('MIN', min(values));
+
   }
 
   ngOnInit(): void {
@@ -163,4 +171,13 @@ function average(values){
     total += Number(values[i]);
   }
   return total / values.length;
+}
+
+function min(values){
+  return Math.min.apply(Math, values.map(Number));
+}
+
+function max(values) {
+
+  return Math.max.apply(Math, values.map(Number));
 }
