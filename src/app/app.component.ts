@@ -67,7 +67,8 @@ export class AppComponent implements OnInit {
     {value: '0.7', viewValue: '0.7'},
     {value: '0.8', viewValue: '0.8'},
     {value: '0.9', viewValue: '0.9'},
-    {value: '1', viewValue: '1.0'},
+    {value: '1.0', viewValue: '1.0'},
+    {value: '1.1', viewValue: '1.1'},
   ];
 
   changeSpeed($event) {
