@@ -1,9 +1,16 @@
 <mat-toolbar class="full-width">
-  <span>Algorithms For Metallurgical Processes Control</span>
+  <mat-toolbar-row>
+      <span>Algorithms For Metallurgical Processes Control</span>
+      <span class="example-spacer"></span>
+      <button mat-fab color="primary" (click)="csvInput.click()">
+        <mat-icon class="example-icon" aria-hidden="false">cloud_upload</mat-icon>
+      </button>
+      <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="dark-background full-width">
-  <mat-form-field class="less-than-half-width selector">
+  <mat-form-field class="less-than-half-width selector" *ngIf="readLocalStorageValue('url')">
     <mat-select placeholder="Prędkość odlewania">
       <mat-option (onSelectionChange)="changeSpeed($event)" *ngFor="let speed of speeds" [value]="speed.value">
         {{ speed.viewValue }}
@@ -11,7 +18,7 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="less-than-half-width selector">
+  <mat-form-field class="less-than-half-width selector" *ngIf="readLocalStorageValue('url')">
     <mat-select placeholder="Parametr">
       <mat-option (onSelectionChange)="changeParameter($event)" *ngFor="let parameter of displayedColumns" [value]="parameter">
         {{ parameter }}
@@ -20,35 +27,31 @@
   </mat-form-field>
 </div>
 
-<div *ngIf="chart">
-  <canvas id="canvas">{{ chart }}</canvas>
-</div>
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>
+    <canvas id="canvas">{{ chart }}</canvas>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <table style="width:100%">
+      <tr>
+        <th>Minimum</th>
+        <th>Maximum</th>
+        <th>Mediana</th>
+        <th>Średnia</th>
+      </tr>
+      <tr>
+        <td>{{min}}</td>
+        <td>{{max}}</td>
+        <td>{{median}}</td>
+        <td>{{average}}</td>
+      </tr>
+    </table>
+  </mat-grid-tile>
+</mat-grid-list>
 
 
-<table class="table">
-  <thead>
-  <tr>
-    <th scope="col">Nazwa</th>
-    <th scope="col">Wartosc</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <th scope="row">Maksymalna</th>
-    <td>{{max}}</td>
-  </tr>
-  <tr>
-    <th scope="row">Minimalna</th>
-    <td>{{min}}</td>
-  </tr>
-  <tr>
-    <th scope="row">Srednia</th>
-    <td>{{average}}</td>
-  </tr>
-  <tr>
-    <th scope="row">Mediana</th>
-    <td>{{median}}</td>
-  </tr>
-  </tbody>
-</table>
+
+
+
 

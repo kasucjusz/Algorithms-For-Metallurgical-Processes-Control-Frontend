@@ -10,15 +10,19 @@
   background-color: dimgrey;
 }
 
-.scroll-container {
-  overflow-x: scroll;
-  min-width: 450px;
-}
-
 .selector {
   margin: 10px;
 }
 
 .table {
   width: 100%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+mat-grid-tile {
+  margin: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 10px;
 }

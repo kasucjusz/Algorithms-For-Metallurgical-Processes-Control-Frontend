@@ -6,7 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from '../httpConnector/config.service';
 import {
-  MatFormFieldModule,
+  MatButtonModule,
+  MatFormFieldModule, MatGridListModule, MatIconModule,
   MatInputModule,
   MatPaginatorModule,
   MatSelectModule,
@@ -31,7 +32,10 @@ import {ChartsModule} from 'ng2-charts';
     MatPaginatorModule,
     MatToolbarModule,
     MatSelectModule,
-    ChartsModule
+    ChartsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatGridListModule
   ],
   providers: [ConfigService],
   bootstrap: [AppComponent]

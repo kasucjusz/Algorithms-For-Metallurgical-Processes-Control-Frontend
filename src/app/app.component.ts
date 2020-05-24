@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfigService} from '../httpConnector/config.service';
 import {Chart} from 'chart.js';
-import {removeErrorMarkup} from "tslint/lib/verify/parse";
 
 @Component({
   selector: 'app-root',
@@ -9,15 +8,16 @@ import {removeErrorMarkup} from "tslint/lib/verify/parse";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  chart: Chart[] = [];
-  median;
-  average;
-  max;
-  min;
-  headElements = ['Maksymalna', 'Minimalna', 'Srednia', 'Mediana'];
+  chart: Chart;
   dataSource;
+
   title = 'aspm-frontend';
+
+  median = 0;
+  average = 0;
+  min = 0;
+  max = 0;
+
   displayedColumns = [
     'Czas',
     'P1108',
@@ -46,13 +46,6 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(private httpConnector: ConfigService) {
-    this.httpConnector.getAllData()
-      .subscribe(res => {
-        // @ts-ignore
-        this.dataSource = res;
-        console.log('Loaded');
-        console.log(res);
-      });
   }
 
   speeds = [
@@ -71,33 +64,40 @@ export class AppComponent implements OnInit {
     {value: '1.1', viewValue: '1.1'},
   ];
 
+  readLocalStorageValue(key) {
+    return localStorage.getItem(key);
+  }
+
+  csvInputChange(fileInputEvent: any) {
+    this.httpConnector.sendFile(fileInputEvent.target.files[0])
+      .subscribe(res => {
+        localStorage.setItem('url', res[0]);
+    });
+  }
+
   changeSpeed($event) {
-    this.chart = [];
     const param = $event.source.value;
     if ($event.isUserInput) {
-      console.log(param);
       if (param === 'all') {
         this.httpConnector.getAllData()
           .subscribe(res => {
             // @ts-ignore
             this.dataSource = res;
-            console.log('Loaded');
-            console.log(res);
           });
       } else {
         this.httpConnector.getBySpeed(param)
           .subscribe(res => {
             // @ts-ignore
             this.dataSource = res;
-            console.log('Loaded');
-            console.log(res);
           });
       }
     }
   }
 
   changeParameter($event) {
-    this.chart = [];
+    if(this.chart !== undefined) {
+      this.chart.destroy();
+    }
     const values = [];
     const dates = [];
     let param = $event.source.value;
@@ -105,7 +105,6 @@ export class AppComponent implements OnInit {
     const json = JSON.stringify(this.dataSource);
     JSON.parse(json, (key, value) => {
       if (key.toLowerCase() === param.toLowerCase()) {
-        console.log('WARTOSC', value);
         values.push(value);
       }
       if (key.toLowerCase() === 'time') {
@@ -121,8 +120,8 @@ export class AppComponent implements OnInit {
         datasets: [
           {
             data: values,
-            borderColor: '#3cba9f',
-            fill: false
+            borderColor: '#a73cba',
+            fill: true
           },
         ]
       },
@@ -132,7 +131,7 @@ export class AppComponent implements OnInit {
         },
         scales: {
           xAxes: [{
-            display: true
+            display: false
           }],
           yAxes: [{
             display: true
@@ -140,45 +139,43 @@ export class AppComponent implements OnInit {
         }
       }
     });
-    this.median=median(values);
-    this.average=average(values);
-    this.min=min(values);
-    this.max=max(values);
-    console.log('WARTOSCI ', values);
-    console.log('MEDIANA',  median(values));
-    console.log('SREDNIA', average(values));
-    console.log('MAX', max(values));
-    console.log('MIN', min(values));
 
+    this.median = this.getMedian(values);
+    this.average = this.getAverage(values);
+    this.min = this.getMin(values);
+    this.max = this.getMax(values);
   }
 
   ngOnInit(): void {
   }
-}
 
-function median(values) {
-  values.sort( function(a,b) {return a - b;} );
-  var half = Math.floor(values.length/2);
-
-  if(values.length % 2)
-    return values[half];
-  else
-    return (Number(values[half])+ Number(values[half+1]))/2;
-}
-
-function average(values){
-  var total = 0;
-  for(var i = 0; i < values.length; i++) {
-    total += Number(values[i]);
+  getMedian(values) {
+    if (!values || values.length <= 0) {
+      return 0;
+    }
+    values.sort((a, b) => a - b );
+    const half = Math.floor(values.length / 2);
+    if (values.length % 2) {
+      return values[half];
+    }
+    return (Number(values[half]) + Number(values[half + 1])) / 2;
   }
-  return total / values.length;
-}
 
-function min(values){
-  return Math.min.apply(Math, values.map(Number));
-}
+  getAverage(values) {
+    return values.reduce((acc, cur) => Number(acc) + Number(cur), 0) / 2;
+  }
 
-function max(values) {
+  getMin(values) {
+    if (!values || values.length <= 0) {
+      return 0;
+    }
+    return Math.min.apply(Math, values.map(Number));
+  }
 
-  return Math.max.apply(Math, values.map(Number));
+  getMax(values) {
+    if (!values || values.length <= 0) {
+      return 0;
+    }
+    return Math.max.apply(Math, values.map(Number));
+  }
 }
