@@ -27,7 +27,7 @@
   </mat-form-field>
 </div>
 
-<mat-grid-list cols="2" rowHeight="2:1">
+<mat-grid-list cols="2" rowHeight="2:1" *ngIf="readLocalStorageValue('url')">
   <mat-grid-tile>
     <canvas id="canvas">{{ chart }}</canvas>
   </mat-grid-tile>
