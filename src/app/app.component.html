@@ -1,25 +1,42 @@
 <mat-toolbar class="full-width">
-  <span>Algorithms For Metallurgical Processes Control</span>
+
+  <mat-toolbar-row>
+
+    <span>Humidity Observer 1.0</span>
+
+    <button mat-button [matMenuTriggerFor]="stationMenuPolypody">
+      <mat-icon>cached</mat-icon>
+      Polypody
+    </button>
+
+    <mat-menu #stationMenuPolypody="matMenu">
+      <button mat-menu-item (click)="getHumidityForPolypody()">Humidity</button>
+      <button mat-menu-item (click)="getTemperatureForPolypody()">Temperature</button>
+    </mat-menu>
+
+    <button mat-button [matMenuTriggerFor]="stationMenuZamioculcas">
+      <mat-icon>cached</mat-icon>
+      Zamioculcas
+    </button>
+
+    <mat-menu #stationMenuZamioculcas="matMenu">
+      <button mat-menu-item (click)="getHumidityForZamioculcas()">Humidity</button>
+      <button mat-menu-item (click)="getTemperatureForZamioculcas()">Temperature</button>
+    </mat-menu>
+
+  </mat-toolbar-row>
+
 </mat-toolbar>
 
-<div class="dark-background full-width">
-  <mat-form-field class="less-than-half-width selector">
-    <mat-select placeholder="Prędkość odlewania">
-      <mat-option (onSelectionChange)="changeSpeed($event)" *ngFor="let speed of speeds" [value]="speed.value">
-        {{ speed.viewValue }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
 
-  <mat-form-field class="less-than-half-width selector">
-    <mat-select placeholder="Parametr">
-      <mat-option (onSelectionChange)="changeParameter($event)" *ngFor="let parameter of displayedColumns" [value]="parameter">
-        {{ parameter }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-
-<div *ngIf="chart">
-  <canvas id="canvas">{{ chart }}</canvas>
+<div class="chart-wrapper">
+  <canvas baseChart #canvasElement
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins">
+  </canvas>
 </div>

@@ -5,11 +5,24 @@ import { HttpClient } from '@angular/common/http';
 export class ConfigService {
   constructor(private http: HttpClient) { }
 
-  getAllData() {
-    return this.http.get('api/csv');
+  getHumidityForPaprotka() {
+    return this.http.get('api/humidity/humidityForPaprotka');
   }
 
-  getBySpeed(speed: string) {
-    return this.http.get('api/csv/' + speed);
+  getHumidityForZamioculcas() {
+    return this.http.get('api/humidity/humidityForZamioculcas');
   }
+
+  getHumidityStaticsForPaprotka() {
+    return this.http.get('api/humidity/humidityStaticsForPaprotka');
+  }
+
+  getTemperatureForPaprotka() {
+    return this.http.get('api/temperature/temperatureForPaprotka');
+  }
+
+  getTemperatureForZamioculcas() {
+    return this.http.get('api/temperature/temperatureForZamioculcas');
+  }
+
 }

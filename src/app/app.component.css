@@ -1,21 +1,7 @@
-.full-width {
-  width: 100%;
-}
-
-.less-than-half-width {
-  width: 40%;
-}
-
-.dark-background {
-  background-color: dimgrey;
-}
-
-.scroll-container {
-  overflow-x: scroll;
-  min-width: 450px;
-}
-
-.selector {
-  margin: 10px;
+.chart-wrapper {
+  display: inline-block;
+  position: relative;
+  height:40vh;
+  width:80vw
 }
 

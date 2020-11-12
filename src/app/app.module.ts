@@ -15,6 +15,9 @@ import {
   MatToolbarModule
 } from '@angular/material';
 import {ChartsModule} from 'ng2-charts';
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import {ChartsModule} from 'ng2-charts';
     MatPaginatorModule,
     MatToolbarModule,
     MatSelectModule,
-    ChartsModule
+    ChartsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule
   ],
   providers: [ConfigService],
   bootstrap: [AppComponent]
